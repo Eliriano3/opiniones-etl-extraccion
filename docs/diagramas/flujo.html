@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; width: 1600px; height: 650px; overflow: hidden;
+    background: #f5f7fb; color: #202124;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
+  .titulo { position: absolute; left: 40px; top: 24px; }
+  .titulo h1 { margin: 0; font-size: 28px; color: #102a43; }
+  .titulo p { margin: 6px 0 0; font-size: 14px; color: #52606d; }
+  .paso {
+    position: absolute; border-radius: 12px; border: 2px solid #2f80ed;
+    background: #eef5ff; padding: 12px 14px; color: #14539a;
+  }
+  .paso b { display: block; font-size: 14px; margin-bottom: 4px; }
+  .paso span { font-size: 12px; color: #52606d; }
+  .sub {
+    position: absolute; border-radius: 10px; border: 2px solid #34a853;
+    background: #f7fff9; padding: 10px 12px; color: #0b6b33;
+  }
+  .sub b { display: block; font-size: 13px; }
+  .sub span { font-size: 11.5px; color: #52606d; }
+  .error {
+    position: absolute; border-radius: 10px; border: 2px solid #d93025;
+    background: #fdf1f0; padding: 10px 14px; color: #a50e0e;
+  }
+  .error b { display: block; font-size: 13px; }
+  .error span { font-size: 11.5px; color: #5f6368; }
+  .banda {
+    position: absolute; left: 40px; top: 552px; width: 1520px; height: 66px;
+    border-radius: 12px; background: #102a43; color: #ffffff; padding: 12px 20px;
+    display: flex; align-items: center; justify-content: space-between; font-size: 12.5px;
+  }
+  .banda b { color: #9ae6b4; }
+  svg { position: absolute; inset: 0; pointer-events: none; }
+</style>
+</head>
+<body>
+  <div class="titulo">
+    <h1>Flujo del proceso de extracción</h1>
+    <p>Ejecución en paralelo, recolección de resultados y salida temporal por fuente</p>
+  </div>
+
+  <div class="paso" style="left:30px; top:130px; width:180px; height:86px;">
+    <b>1. Inicio</b>
+    <span>Worker Service .NET 8</span>
+  </div>
+
+  <div class="paso" style="left:250px; top:130px; width:180px; height:86px;">
+    <b>2. Configuración</b>
+    <span>appsettings y entorno</span>
+  </div>
+
+  <div class="paso" style="left:470px; top:130px; width:210px; height:86px;">
+    <b>3. Extracción</b>
+    <span>Tres fuentes en paralelo</span>
+  </div>
+
+  <div class="paso" style="left:720px; top:130px; width:190px; height:86px;">
+    <b>4. Resultados</b>
+    <span>Registros, errores y tiempos</span>
+  </div>
+
+  <div class="paso" style="left:950px; top:130px; width:200px; height:86px;">
+    <b>5. Salida temporal</b>
+    <span>JSON por fuente y manifiesto</span>
+  </div>
+
+  <div class="paso" style="left:1190px; top:130px; width:190px; height:86px;">
+    <b>6. Log y resumen</b>
+    <span>ILogger / Serilog</span>
+  </div>
+
+  <div class="paso" style="left:1420px; top:130px; width:150px; height:86px;">
+    <b>7. Fin</b>
+    <span>Proceso detenido</span>
+  </div>
+
+  <div class="sub" style="left:410px; top:300px; width:180px; height:82px;">
+    <b>CSV</b>
+    <span>CsvHelper, 500 registros</span>
+  </div>
+
+  <div class="sub" style="left:610px; top:300px; width:180px; height:82px;">
+    <b>Base de datos</b>
+    <span>ADO.NET, 200 registros</span>
+  </div>
+
+  <div class="sub" style="left:810px; top:300px; width:180px; height:82px;">
+    <b>API REST</b>
+    <span>HttpClient, 200 registros</span>
+  </div>
+
+  <div class="error" style="left:470px; top:430px; width:520px; height:66px;">
+    <b>Errores por fuente</b>
+    <span>Se registran en el log y el proceso continua con las demas fuentes.</span>
+  </div>
+
+  <div class="banda">
+    <div><b>Paralelismo:</b> las tres fuentes se ejecutan con Task.WhenAll.</div>
+    <div><b>Resultado:</b> 900 registros, 0 errores, 321 ms.</div>
+    <div><b>Trazabilidad:</b> cada fuente deja su archivo JSON y su entrada en el manifiesto.</div>
+    <div><b>Resiliencia:</b> un fallo de una fuente no detiene a las otras.</div>
+  </div>
+
+  <svg viewBox="0 0 1600 650">
+    <defs>
+      <marker id="flecha" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" fill="#5f6368"></path>
+      </marker>
+    </defs>
+    <g stroke="#5f6368" stroke-width="2.4" fill="none" marker-end="url(#flecha)">
+      <path d="M210 173 L250 173"></path>
+      <path d="M430 173 L470 173"></path>
+      <path d="M680 173 L720 173"></path>
+      <path d="M910 173 L950 173"></path>
+      <path d="M1150 173 L1190 173"></path>
+      <path d="M1380 173 L1420 173"></path>
+      <path d="M575 216 L500 300"></path>
+      <path d="M575 216 L700 300"></path>
+      <path d="M575 216 L900 300"></path>
+      <path d="M500 382 L600 430"></path>
+      <path d="M700 382 L700 430"></path>
+      <path d="M900 382 L800 430"></path>
+    </g>
+  </svg>
+</body>
+</html>

@@ -1,0 +1,7 @@
+bin/
+obj/
+logs/
+data/extracted/
+.dsh-office.*
+.DS_Store
+*.user
